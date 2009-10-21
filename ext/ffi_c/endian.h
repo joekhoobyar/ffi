@@ -4,7 +4,7 @@
 #include <sys/param.h>
 #include <sys/types.h>
 
-#ifdef __linux__
+#ifdef __GNUC__
 #  include_next <endian.h>
 #endif
 
