@@ -16,9 +16,10 @@ create_makefile("ffi_c")
 create_header("extconf.h")
 File.open("Makefile", "a") do |mf|
   mf.puts "CPPFLAGS += -Werror -Wunused -Wformat -Wimplicit -Wreturn-type"
+  mf.puts "CPPFLAGS += -mwin32" if Config::CONFIG['host_os'] =~ /cygwin/
   unless libffi_ok 
     mf.puts "LIBFFI_HOST=--host=#{Config::CONFIG['host_alias']}" if Config::CONFIG.has_key?("host_alias")
-    mf.puts "FFI_MMAP_EXEC=-DFFI_MMAP_EXEC_WRIT=#{Config::CONFIG['host_os'] =~ /(win32|mingw)/ ? 0 : 1}"
+    mf.puts "FFI_MMAP_EXEC=-DFFI_MMAP_EXEC_WRIT=#{Config::CONFIG['host_os'] =~ /(win32|mingw|cygwin)/ ? 0 : 1}"
     if Config::CONFIG['host_os'].downcase =~ /darwin/
       mf.puts "include ${srcdir}/libffi.darwin.mk"
     elsif Config::CONFIG['host_os'].downcase =~ /bsd/
